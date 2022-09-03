@@ -46,15 +46,8 @@ class LessonController {
 		let text = req.body.text;
 		let language = req.body.language;
 
-		console.log(id);
-		console.log(name);
-		console.log(text);
-		console.log(language);
-
 		let lesson = this.repository.getLesson(id);
 		lesson.then(result => {
-			console.log(result[0]);
-			
 			let currentLesson = result[0][0];
 
 			if (currentLesson.name !== name && !name) {

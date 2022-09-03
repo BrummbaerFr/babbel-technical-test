@@ -27,8 +27,6 @@ class UserController {
 		const result = this.repository.createAccount(req.body.firstName, req.body.lastName, req.body.username, req.body.password);
 
 		result.then(result => {
-			console.log(result);
-			
 			if (result[0]['affectedRows'] > 0) {
 				const user = {
 					id: result[0]['insertId'],
@@ -61,8 +59,6 @@ class UserController {
 
 		let user = this.repository.getAccount(id);
 		user.then(result => {
-			console.log(result[0]);
-			
 			let currentUser = result[0][0];
 
 			if (currentUser.first_name !== firstName && !firstName) {
