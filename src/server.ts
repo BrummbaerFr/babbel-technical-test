@@ -8,6 +8,10 @@ import CourseController from './controllers/course.controller';
 
 dotenv.config();
 
+/**
+ * Connects to the database, and creates database and tables if needed.
+ * @returns a MySQL promise connection to the database.
+ */
 async function connectToDatabase() {
 	let conn = await mysql.createConnection({
 		host: process.env.DATABASE_HOST,
@@ -20,6 +24,10 @@ async function connectToDatabase() {
 	return conn;
 }
 
+/**
+ * Initialises the database and needed tables: users, lessons, courses, languages...
+ * @param conn a connection to the database.
+ */
 async function initialiseDatabase(conn: mysql.Connection) {
 	conn.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE_NAME}\``);
 	conn.query(`USE \`${process.env.DATABASE_NAME}\``);
@@ -65,6 +73,10 @@ async function initialiseDatabase(conn: mysql.Connection) {
 
 const connection = connectToDatabase();
 
+/**
+ * Start the app on port 8000,
+ * and create all controllers.
+ */
 const app = new App(
 	[
 		new LanguageController(connection),
