@@ -1,4 +1,3 @@
-import express from 'express';
 import { ILanguage } from '../models/ILanguage';
 import { Connection, FieldPacket, ResultSetHeader } from 'mysql2/promise';
 
