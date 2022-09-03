@@ -30,7 +30,11 @@ class LessonController {
 	}
 
 	addLesson = (req: express.Request, res: express.Response) => {
-		const result = this.repository.addLesson(req.body.name, +req.body.language, req.body.text);
+		const name = req.body.name;
+		const language = +req.body.language;
+		const text = req.body.text;
+
+		const result = this.repository.addLesson(name, language, text);
 
 		result.then(result => {
 			if (result[0]['affectedRows'] > 0) {
@@ -40,13 +44,13 @@ class LessonController {
 	}
 
 	updateLesson = (req: express.Request, res: express.Response) => {
-		let id = +req.params.id;
+		const id = +req.params.id;
 
 		let name = req.body.name;
 		let text = req.body.text;
 		let language = req.body.language;
 
-		let lesson = this.repository.getLesson(id);
+		const lesson = this.repository.getLesson(id);
 		lesson.then(result => {
 			let currentLesson = result[0][0];
 
@@ -61,7 +65,7 @@ class LessonController {
 			if (currentLesson.language !== language && !language) {
 				language = currentLesson.language;
 			}
-		
+
 			const updateResult = this.repository.updateLesson(id, name, text, language);
 
 			updateResult.then(result => {
@@ -73,7 +77,7 @@ class LessonController {
 	}
 
 	deleteLesson = (req: express.Request, res: express.Response) => {
-		let id = +req.params.id;
+		const id = +req.params.id;
 
 		const result = this.repository.deleteLesson(id);
 

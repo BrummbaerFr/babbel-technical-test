@@ -24,9 +24,20 @@ class CourseRepository {
 		return (await this.connection).execute<ICourse[]>(sql, params);
 	}
 
+	/**
+	 * Adds a course in the database.
+	 * @param name the course's name.
+	 * @param lessons an array of lesson identifiers that belong to the course.
+	 * @param activeLesson the current active lesson's identifier.
+	 * @param owner the course's owner.
+	 * @returns a Promise object about the inserted data.
+	 */
 	public async addCourse(name: string, lessons: number[], activeLesson: number, owner: number): Promise<[ResultSetHeader, FieldPacket[]]> {
 		let result = (await this.connection).execute<ResultSetHeader>('INSERT INTO courses (name, current_lesson, owner) VALUES (?, ?, ?)', [name, activeLesson, owner]);
 
+		/**
+		 * Now that the course is created, bind the course to its lessons, using a junction table:
+		 */
 		result.then(async result => {
 			let courseId = result[0]['insertId'];
 

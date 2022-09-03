@@ -24,7 +24,12 @@ class UserController {
 	}
 
 	createAccount = (req: express.Request, res: express.Response) => {
-		const result = this.repository.createAccount(req.body.firstName, req.body.lastName, req.body.username, req.body.password);
+		const firstName = req.body.firstName;
+		const lastName = req.body.lastName;
+		const username = req.body.username;
+		const password = req.body.password;
+
+		const result = this.repository.createAccount(firstName, lastName, username, password);
 
 		result.then(result => {
 			if (result[0]['affectedRows'] > 0) {
@@ -50,14 +55,14 @@ class UserController {
 	}
 
 	updateAccount = (req: express.Request, res: express.Response) => {
-		let id = +req.params.id;
+		const id = +req.params.id;
 
 		let firstName = req.body.firstName;
 		let lastName = req.body.lastName;
 		let username = req.body.username;
 		let password = req.body.password;
 
-		let user = this.repository.getAccount(id);
+		const user = this.repository.getAccount(id);
 		user.then(result => {
 			let currentUser = result[0][0];
 
@@ -76,7 +81,7 @@ class UserController {
 			if (currentUser.password !== password && !password) {
 				password = currentUser.password;
 			}
-		
+
 			const updateResult = this.repository.updateAccount(id, firstName, lastName, username, password);
 
 			updateResult.then(result => {
@@ -88,7 +93,9 @@ class UserController {
 	}
 
 	deleteAccount = (req: express.Request, res: express.Response) => {
-		const result = this.repository.deleteAccount(+req.params.id);
+		const id = +req.params.id;
+
+		const result = this.repository.deleteAccount(id);
 
 		result.then(result => {
 			res.status(204).send();

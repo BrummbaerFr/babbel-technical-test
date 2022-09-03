@@ -25,13 +25,17 @@ class LanguageController {
 
 	getLanguages = (req: express.Request, res: express.Response) => {
 		const languages = this.repository.getLanguages();
+
 		languages.then(languages => {
 			res.send(languages[0])
 		});
 	};
 
 	addLanguage = (req: express.Request, res: express.Response) => {
-		const result = this.repository.addLanguage(req.body.name, req.body.code);
+		const name = req.body.name;
+		const code = req.body.code;
+
+		const result = this.repository.addLanguage(name, code);
 
 		result.then(result => {
 			if (result[0]['affectedRows'] > 0) {
@@ -41,9 +45,9 @@ class LanguageController {
 	}
 
 	updateLanguage = (req: express.Request, res: express.Response) => {
-		let newCode = req.body.code;
-		let name = req.body.name;
-		let code = req.params.code;
+		const newCode = req.body.code;
+		const name = req.body.name;
+		const code = req.params.code;
 
 		const result = this.repository.updateLanguage(name, newCode, code);
 
@@ -63,7 +67,9 @@ class LanguageController {
 	}
 
 	deleteLanguage = (req: express.Request, res: express.Response) => {
-		const result = this.repository.deleteLanguage(req.params.code);
+		const code = req.params.code;
+
+		const result = this.repository.deleteLanguage(code);
 
 		result.then(result => {
 			res.status(204).send();

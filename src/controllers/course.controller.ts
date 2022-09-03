@@ -22,9 +22,9 @@ class CourseController {
 	}
 
 	getCourses = (req: express.Request, res: express.Response) => {
-		let userId = req.query.user;
+		const userId = req.query.user;
 		let courses: Promise<[ICourse[], FieldPacket[]]>;
-		
+
 		if (userId) {
 			let ownerId = +userId;
 			courses = this.repository.getCourses(+ownerId);
@@ -38,7 +38,12 @@ class CourseController {
 	}
 
 	addCourse = (req: express.Request, res: express.Response) => {
-		const result = this.repository.addCourse(req.body.name, req.body.lessons, req.body.activeLesson, req.body.owner);
+		const name = req.body.name;
+		const lessons = req.body.lessons
+		const activeLesson = req.body.activeLesson;
+		const owner = req.body.owner;
+
+		const result = this.repository.addCourse(name, lessons, activeLesson, owner);
 
 		result.then(result => {
 			if (result[0]['affectedRows'] > 0) {
@@ -48,7 +53,7 @@ class CourseController {
 	}
 
 	deleteCourse = (req: express.Request, res: express.Response) => {
-		let id = +req.params.id;
+		const id = +req.params.id;
 
 		const result = this.repository.deleteCourse(id);
 
