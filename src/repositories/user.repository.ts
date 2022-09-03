@@ -1,4 +1,3 @@
-import express from 'express';
 import { IUser } from '../models/IUser';
 import { Connection, ResultSetHeader, FieldPacket } from 'mysql2/promise';
 

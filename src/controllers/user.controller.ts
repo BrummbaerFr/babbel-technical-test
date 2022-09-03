@@ -1,6 +1,5 @@
 import express from 'express';
 import { Connection } from 'mysql2/promise';
-import { ILanguage } from '../models/ILanguage';
 import { IUser } from '../models/IUser';
 import UserRepository from '../repositories/user.repository';
 
